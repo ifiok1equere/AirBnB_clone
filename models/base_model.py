@@ -2,20 +2,31 @@
 
 '''This module is the blue print for object creation
 '''
-from datetime import datetime
+from datetime import datetime, date
 import uuid
 
 
 class BaseModel:
     '''This is the model class blueprint
     '''
-    def __init__(self, id=None, created_at=None, updated_at=None):
+    def __init__(self, *rgs, **kwargs):
         '''This method creates an instance
         of the BaseModel Class'''
-
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        if kwargs:
+            del kwargs["__class__"]
+            date_str_format = "%Y-%m-%dT%H:%M:%S.%f"
+            kwargs["created_at"] = datetime.strptime(
+                    kwargs["created_at"], date_str_format
+                    )
+            kwargs["updated_at"] = datetime.strptime(
+                    kwargs["updated_at"], date_str_format
+                    )
+            for key, value in kwargs.items():
+                setattr(self, key, value)
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
     def __str__(self):
         '''This is the user representation
