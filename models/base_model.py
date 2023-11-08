@@ -31,7 +31,9 @@ class BaseModel:
 
         obj_class_name = self.__class__.__name__
         obj_dict_rep = self.__dict__
-        return ("[{:s}] ({:s}) {}".format(obj_class_name, self.id, obj_dict_rep))
+        return ("[{:s}] ({:s}) {}".format(
+            obj_class_name, self.id, obj_dict_rep)
+            )
 
     def save(self):
         '''Updates public instance attributes
