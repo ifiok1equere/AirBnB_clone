@@ -10,13 +10,20 @@ class BaseModel:
     '''This is the model class blueprint
     '''
 
-    def __init__(self, id=None, created_at=None, updated_at=None):
+    def __init__(self, *args, **kwargs):
         '''This method creates an instance
         of the BaseModel Class'''
 
         self.id = str(uuid.uuid4())
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
+        if kwargs:
+            if "__class__" in kwargs.keys():
+                del kwargs["__class__"]
+            kwargs["created_at"] = datetime.fromisoformat(kwargs["created_at"])
+            kwargs["updated_at"] = datetime.fromisoformat(kwargs["updated_at"])
+            for key, value in kwargs.items():
+                setattr(self, key, value)
 
     def __str__(self):
         '''This is the user representation
