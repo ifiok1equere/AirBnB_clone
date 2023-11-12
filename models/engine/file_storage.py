@@ -5,7 +5,6 @@ import json
 import os.path
 
 
-
 class FileStorage:
     '''This class serializes instances to a JSON
     string and stores them in a JSON file'''
@@ -18,7 +17,7 @@ class FileStorage:
         '''
 
         return self.__objects
-    
+
     def new(self, obj):
         '''This method concatenates the object obj and it's id
         and sets in the __objects dictionary'''
@@ -39,21 +38,22 @@ class FileStorage:
         '''This method de-serializes the JSON file content
         back to a __objects dictionary if and only if it exists'''
 
-        '''
-        if os.path.isfile(FileStorage.__file_path) is True:
-            from models.base_model import BaseModel
-            with open(FileStorage.__file_path, 'r', encoding="utf-8") as jsonStr:
-                deserialized = json.load(jsonStr)
-                for obj_values in deserialized.values():
-                    clsName = obj_values["__class__"]
-                    if isinstance(clsName, str) and type(eval(clsName)) == type:
-                        self.new(eval(clsName)(**obj_values))
-        '''
         if os.path.isfile(FileStorage.__file_path):
             from models.base_model import BaseModel
-            #add more imports as may be required for new classes
-            class_mapping = {'BaseModel': BaseModel}
-            #add more class mappings as may be required for new classes
+            from models.user import User
+            from models.state import State
+            from models.city import City
+            from models.amenity import Amenity
+            from models.place import Place
+            from models.review import Review
+            '''add more imports as may be required for new classes'''
+
+            class_mapping = {
+                    'BaseModel': BaseModel, 'User': User, 'State': State,
+                    'City': City, 'Amenity': Amenity, 'Place': Place,
+                    'Review': Review
+                    }
+            '''add more class mappings as may be required for new classes'''
 
             with open(FileStorage.__file_path, 'r', encoding="utf-8") as f:
                 deserialized_str = json.load(f)
