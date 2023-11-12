@@ -39,7 +39,7 @@ class HBNBCommand(cmd.Cmd):
         '''This method exits te program if the
         user enters ctrl + D
         '''
-
+        print()
         return True
 
     def emptyline(self):
@@ -205,15 +205,20 @@ class HBNBCommand(cmd.Cmd):
         print(counts)
 
     def cmdloop(self, intro=None):
-        while True:
-            try:
-                line = input(self.prompt)
-                readline.add_history(line)
-                modified_line = self.preprocess_command(line)
-                if self.onecmd(modified_line):
+        try:
+            while True:
+                try:
+                    line = input(self.prompt)
+                    readline.add_history(line)
+                    modified_line = self.preprocess_command(line)
+                    if self.onecmd(modified_line):
+                        break
+                except EOFError:
+                    print()
                     break
-            except KeyboardInterrupt:
-                break
+        except KeyboardInterrupt:
+            print()
+            pass
 
     def preprocess_command(self, line):
         '''This is a helper function to pre-process the
