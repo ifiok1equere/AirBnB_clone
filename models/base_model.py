@@ -38,6 +38,13 @@ class BaseModel:
             obj_class_name, self.id, obj_dict_rep)
             )
 
+    def __repr__(self):
+        """Return the string representation of the instance."""
+
+        return "[{}] ({}) {}".format(
+                self.__class__.__name__, self.id, self.__dict__
+                )
+
     def save(self):
         '''Updates public instance attributes
         with the current time'''

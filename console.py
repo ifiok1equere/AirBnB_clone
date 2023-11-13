@@ -140,10 +140,17 @@ class HBNBCommand(cmd.Cmd):
         '''
         storage.reload()
         instance_list = []
+        new_list = []
 
         if not line:
             for key, value in storage.all().items():
                 instance_list.append(value.__str__())
+            print(instance_list)
+        elif "." in line:
+            line = line.strip(".")
+            for key, value in storage.all().items():
+                if line in key:
+                    instance_list.append(value)
             print(instance_list)
         elif line in class_list:
             for key, value in storage.all().items():
@@ -233,7 +240,7 @@ class HBNBCommand(cmd.Cmd):
             groups = match.groups()
 
         if groups and (groups[1] == "all" or groups[1] == "count"):
-            modified_line = "{} {}".format(groups[1], groups[0])
+            modified_line = "{} {}{}".format(groups[1], groups[0], ".")
             return modified_line
         elif groups and (groups[1] == "show" or groups[1] == "destroy"):
             modified_line = "{} {} {}".format(
