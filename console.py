@@ -12,7 +12,6 @@ from models.place import Place
 from models.review import Review
 from models.engine.file_storage import FileStorage
 from models import storage
-import readline
 import re
 
 
@@ -149,7 +148,6 @@ class HBNBCommand(cmd.Cmd):
                 if line in key:
                     instance_list.append(value)
             print(instance_list)
-            print(type(instance_list[0]))
         elif line in class_list:
             for key, value in storage.all().items():
                 if line in key:
