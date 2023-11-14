@@ -66,10 +66,7 @@ class HBNBCommand(cmd.Cmd):
     def help_count(self):
         print("Retrieves the number of instances of a class")
 
-    def help_preprocess_command(self):
-        print("Helper function to cmdloop method for preprocessing command")
-
-    def help_cmdloop(self):
+    def help_precmd(self):
         print("Pre-processes commands before execution")
 
     def do_create(self, line):
@@ -152,6 +149,7 @@ class HBNBCommand(cmd.Cmd):
                 if line in key:
                     instance_list.append(value)
             print(instance_list)
+            print(type(instance_list[0]))
         elif line in class_list:
             for key, value in storage.all().items():
                 if line in key:
@@ -211,26 +209,10 @@ class HBNBCommand(cmd.Cmd):
                 counts += 1
         print(counts)
 
-    def cmdloop(self, intro=None):
-        try:
-            while True:
-                try:
-                    line = input(self.prompt)
-                    readline.add_history(line)
-                    modified_line = self.preprocess_command(line)
-                    if self.onecmd(modified_line):
-                        break
-                except EOFError:
-                    print()
-                    break
-        except KeyboardInterrupt:
-            print()
-            pass
-
-    def preprocess_command(self, line):
-        '''This is a helper function to pre-process the
-        entry on the command prompt co that the do_functions
-        can handle and execute them accordingly
+    def precmd(self, line):
+        '''Redefining the precmd method to pre-process the
+        entry on the command prompt so that the do_functions
+        can handle and execute them accordingly.
         '''
 
         pattern = re.compile(r'([a-zA-Z]+)\.([a-zA-z]+)\((.+)?\)')
