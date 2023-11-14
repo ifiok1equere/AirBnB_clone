@@ -209,7 +209,7 @@ class HBNBCommand(cmd.Cmd):
                 counts += 1
         print(counts)
 
-    def precmd(self, line):
+    def default(self, line):
         '''Redefining the precmd method to pre-process the
         entry on the command prompt so that the do_functions
         can handle and execute them accordingly.
@@ -223,12 +223,12 @@ class HBNBCommand(cmd.Cmd):
 
         if groups and (groups[1] == "all" or groups[1] == "count"):
             modified_line = "{} {}{}".format(groups[1], groups[0], ".")
-            return modified_line
+            return self.onecmd(modified_line)
         elif groups and (groups[1] == "show" or groups[1] == "destroy"):
             modified_line = "{} {} {}".format(
                     groups[1], groups[0], groups[2].strip('\"')
                     )
-            return modified_line
+            return self.onecmd(modified_line)
         elif groups and groups[1] == "update":
             if '{' in groups[2]:
                 # Find the index of the comma
@@ -246,9 +246,9 @@ class HBNBCommand(cmd.Cmd):
                         groups[1], groups[0], args[0],
                         args[1].strip(), args[2].strip()
                         )
-            return modified_line
+            return self.onecmd(modified_line)
         else:
-            return line
+            return self.onecmd(line)
 
 
 if __name__ == '__main__':
